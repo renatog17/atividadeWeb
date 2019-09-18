@@ -2,12 +2,15 @@ package br.ucsal.login;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import br.ucsal.login.model.Usuario;
 
 
 
@@ -21,9 +24,7 @@ public class LoginServlet extends HttpServlet {
     /**
      * Default constructor. 
      */
-    public LoginServlet() {
-        // TODO Auto-generated constructor stub
-    }
+  
     
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -41,20 +42,28 @@ public class LoginServlet extends HttpServlet {
 		
 		String login = request.getParameter("login");
 		String senha = request.getParameter("senha");
-		String frase;
-		if(login.equals(senha)) {
-			frase = "Login succesfully";
-		}else {
-			frase = "Login inválido";
+		
+		Usuario user = new Usuario(login, senha);
+		
+		if(this.autenticado(user)) {
+			request.setAttribute("usuario", user);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("dashboard.jsp");
+			dispatcher.forward(request, response);
+		} else {
+			
 		}
-		response.getWriter().append("<html><body>");
-		response.getWriter().append(frase);
-		response.getWriter().append("</html></body>");
-		
-		
-		
-		
-		
+	
+	}
+	
+	public boolean autenticado(Usuario usuario) {
+		boolean resultado = false;
+		if(	usuario!=null && 
+			usuario.getLogin() !=null &&
+			usuario.getSenha() !=null &&
+			usuario.getLogin().equals(usuario.getSenha())){
+				resultado = true;
+			}
+		return resultado;
 	}
 
 }
