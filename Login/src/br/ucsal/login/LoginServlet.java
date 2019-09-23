@@ -50,7 +50,8 @@ public class LoginServlet extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("dashboard.jsp");
 			dispatcher.forward(request, response);
 		} else {
-			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+			dispatcher.forward(request, response);
 		}
 	
 	}

@@ -1,8 +1,8 @@
 package br.ucsal.login.model;
 
 public class Usuario {
-	String login;
-	String senha;
+	private String login;
+	private String senha;
 	
 	public Usuario() {
 		
